@@ -6,8 +6,8 @@
   "scripts": {
     "build:jsx2mp": "jsx2mp build",
     "start:jsx2mp": "jsx2mp start",
-    "build:raw": "node ./scripts/build.js",
-    "start:raw": "node ./scripts/start.js"
+    "build:raw": "node ./scripts/raw.js",
+    "build:es": "node ./scripts/es.js"
   },
   "dependencies": {
     "fs-extra": "^9.1.0",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@babel/core": "^7.13.16",
     "@types/node": "^14.14.41",
+    "chokidar": "^3.5.1",
     "esbuild": "^0.11.12",
     "jsx-compiler": "^0.4.30",
     "jsx2mp-cli": "^0.3.2",

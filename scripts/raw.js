@@ -10,8 +10,8 @@ const { resolve, relative, join, extname, dirname } = require('path')
 const { sync: resolvePathSync } = require('resolve')
 const compiler = require('jsx-compiler')
 const { parseCode, getImported } = require('jsx-compiler/src/parser')
-const { transformSync } = require('@babel/core');
 const renameImportBabelPlugin = require('jsx2mp-loader/src/babel-plugin-rename-import')
+const { transformSync } = require('@babel/core');
 
 const CWD = process.cwd()
 const rootNodeModulePath = join(CWD, 'node_modules');
@@ -30,14 +30,10 @@ function isFromNodeModule(path) {
 
 function normalizeNpmFileName(filename) {
   const repalcePathname = pathname => pathname.replace(/@/g, '_').replace(/node_modules/g, 'npm');
-
-  const cwd = process.cwd();
-
-  if (!filename.includes(cwd)) return repalcePathname(filename);
-
+  if (!filename.includes(CWD)) return repalcePathname(filename);
   // Support for `@` in cwd path
-  const relativePath = relative(cwd, filename);
-  return join(cwd, repalcePathname(relativePath));
+  const relativePath = relative(CWD, filename);
+  return join(CWD, repalcePathname(relativePath));
 }
 
 function removeExt(url) {
@@ -214,7 +210,7 @@ function buildRuntime({ dist, resource }) {
   copySync(resource, distSourcePath);
 }
 
-function main({ src, pages, dist }) {
+function build({ src, pages, dist }) {
   pages.forEach((page) => {
     buildMini({
       type: 'page',
@@ -229,7 +225,7 @@ function main({ src, pages, dist }) {
   })
 }
 
-main({
+build({
   src: resolve(CWD, './src'),
   pages: [
     './pages/Home/index',
